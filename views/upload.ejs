@@ -1,0 +1,9 @@
+<%- include("header.ejs"); -%>
+</head>
+
+<form action=<%= "/" +userid+ "/upload" %> method="post" enctype="multipart/form-data">
+<input type="file" name="emails">
+<button type="submit">Upload</button>
+</form>
+
+<%- include("footer.ejs"); -%>

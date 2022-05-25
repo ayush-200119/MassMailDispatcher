@@ -1,7 +1,7 @@
 <%- include("header.ejs"); -%>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Montserrat&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&family=Montserrat&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/home.css">
 </head>
 
@@ -17,6 +17,7 @@
             <a href=<%= "/" +userid+ "/upload" %> class="upload btn">Upload</a>
             <a href=<%= "/" +userid+ "/view" %> class="view btn">View</a>
             <a href=<%= "/" +userid+ "/mail" %> class="mail btn">Mail All</a>
+            <a href=<%= "/" +userid+ "/logout" %> class="btn logout">Log Out</a>
         <% } %>
     </div>
 </div>

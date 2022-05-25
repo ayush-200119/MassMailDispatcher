@@ -21,10 +21,11 @@ CAF0F8 9.5*/
 
 /* heading styling */
 .heading{
-    font-family: 'Merriweather', serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 700;
     font-size: 4rem;
     margin-bottom: 1.5rem;
+    letter-spacing: 0.1rem;
 }
 
 /* content styling */
@@ -61,4 +62,14 @@ font-family: 'Montserrat', sans-serif; */
 
 .view{
     margin:0 3rem;
+}
+
+.logout{
+    margin:0 3rem;
+    border-color: #FF6B6B;
+}
+
+.logout:hover{
+    background-color: #FF6B6B;
+    border-color: #FF6B6B;
 }

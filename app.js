@@ -4,6 +4,8 @@ const mongoose=require("mongoose");
 const bodyParser=require("body-parser");
 const uniqid=require("uniqid");
 const bcrypt = require('bcrypt');
+var formidable = require('formidable');
+var fs = require('fs');
 const saltRounds = 10;
 
 mongoose.connect("mongodb://localhost:27017/userDB",{
@@ -39,7 +41,8 @@ app.get("/:userid",function(req,res){
 });
 
 app.get("/:userid/upload",function(req,res){
-    res.send("For Uploading");
+    const id=req.params.userid;
+    res.render("upload",{userid:id});
 });
 
 app.get("/:userid/view",function(req,res){
@@ -48,6 +51,10 @@ app.get("/:userid/view",function(req,res){
 
 app.get("/:userid/mail",function(req,res){
     res.send("Mailing everyone");
+});
+
+app.get("/:userid/logout",function(req,res){
+    res.redirect("/");
 });
 
 //Post Routes
@@ -123,6 +130,7 @@ app.post("/login",function(req,res){
                     }
                     else
                     {
+                        //check your password again
                         res.redirect("/login");
                     }
                 }
@@ -138,6 +146,23 @@ app.post("/login",function(req,res){
             console.log(err);
         }
     });
+
+});
+
+app.post("/:userid/upload",function(req,res){
+    // const fileToUpload=req.body.csv.json();
+    // console.log(req);
+    var form = new formidable.IncomingForm();
+    form.parse(req, function (err, fields, files) {
+        var oldpath = files.emails.filepath;
+      var newpath = 'C:/Users/HP/Desktop/MassMailDispatcher/' + files.emails.originalFilename;
+      fs.rename(oldpath, newpath, function (err) {
+        if (err) throw err;
+        res.write('File uploaded and moved!');
+        res.end();
+      });
+    });
+    // res.send("Post received");
 
 });
 
