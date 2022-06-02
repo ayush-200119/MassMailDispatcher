@@ -25,9 +25,9 @@ const User = require(__dirname+"/models/userSchema.js");
 //Setting Controllers
 app.use("/login",loginController);
 app.use("/register",registerController);
-app.get("/:userid/mail",function(req,res){
-    res.send("Mailing everyone");
-});
+// app.get("/:userid/mail",function(req,res){
+//     res.send("Mailing everyone");
+// });
 app.use("/",homeController);
 
 //Testing

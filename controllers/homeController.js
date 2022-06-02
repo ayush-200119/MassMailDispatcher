@@ -15,6 +15,21 @@ router.get("/:userid/logout",function(req,res){
     res.redirect("/");
 });
 
+router.get("/:userid/mail",function(req,res){
+    const id=req.params.userid;
+    res.render("mail",{userid:id});
+});
+
+router.post("/:userid/mail",function(req,res){
+    console.log(req.body);
+
+    //get the content and the subject of the mail here
+    //get the rectified emails here
+    //mail everyone in the array using smtpjs
+
+    res.send("Request Received");
+});
+
 router.use("/",uploadAndViewController);
 
 module.exports=router;
