@@ -4,6 +4,7 @@ var formidable = require('formidable');
 const mongoose=require("mongoose");
 var fs = require('fs');
 const csv=require('csvtojson');
+const notifier=require('node-notifier');
 
 const User = require(__dirname+"/../models/userSchema.js"); 
 
@@ -15,8 +16,12 @@ router.get("/:userid/upload",function(req,res){
 router.get("/:userid/view",function(req,res){
     const userid=req.params.userid;
     User.findOne({id:userid},function(err,foundUser){
+        console.log(foundUser);
         if(!err)
-            res.render("view",{emails:foundUser.rectifiedEmails});
+        {
+            // console.log(foundUser.rectifiedEmails);    
+            res.render("view",{emails:foundUser.rectifiedEmails,uid:userid});
+        }
         else
             console.log(err);
     });
@@ -38,16 +43,6 @@ router.post("/:userid/upload",function(req,res){
         const csvFilePath=__dirname+"/../uploads/"+files.emails.originalFilename;
         csv({noheader:true,headers:["email"]}).fromFile(csvFilePath).then((jsonObject)=>{
             const re = /^([a-zA-Z0-9\._]+)@([a-zA-Z0-9])+.([a-z]+)(.[a-z]+)?$/g;
-            
-            // for(var i=0;i<jsonObject.length;i++)
-            // {
-            //     if(jsonObject[i].email.match(re))
-            //     {
-            //         console.log(jsonObject[i].email);
-            //     }
-            // }
-
-
             const rectifiedmails=jsonObject.filter((obj)=>{return obj.email.match(re)!==null});
             
             User.findOneAndUpdate({id:userid},{rectifiedEmails:rectifiedmails},function(err){
@@ -68,6 +63,7 @@ router.post("/:userid/upload",function(req,res){
 
         });
 
+        notifier.notify("File Uploaded Successfully");
         res.redirect(`/${userid}`);
         // res.end();
       });

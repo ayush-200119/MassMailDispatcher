@@ -4,6 +4,7 @@ const mongoose=require("mongoose");
 const uniqid=require("uniqid");
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+const notifier=require('node-notifier');
 
 const User = require(__dirname+"/../models/userSchema.js"); 
 
@@ -15,8 +16,6 @@ router.post("/",function(req,res){
     const mail=req.body.email;
     const password=req.body.password;
     const confirmPassword=req.body.confirmPassword;
-
-    //checking if the emal already exists
 
     //using bcrypt
     if(confirmPassword===password)
@@ -53,7 +52,17 @@ router.post("/",function(req,res){
     else
     {
         // Sending an alert kind-of-thing for acknowledgement
-        res.redirect("/register");
+        notifier.notify({
+            title:"Register status",
+            message:"Password and Confirm Password doesn't match",
+            wait:true,
+            timeout:15,
+            actions:["Try again"]
+        },
+        function(err,response,metadata){
+            res.redirect("/register");
+        }
+        );
     }
 });
 
