@@ -19,7 +19,6 @@ router.post("/",function(req,res){
         {
             if(!foundUser)
             {    
-                //can give a pop-up before redirecting
                 notifier.notify({
                     title:"Login status",
                     message:"The entered email does not exits!",

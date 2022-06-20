@@ -16,11 +16,9 @@ router.get("/:userid/upload",function(req,res){
 router.get("/:userid/view",function(req,res){
     const userid=req.params.userid;
     User.findOne({id:userid},function(err,foundUser){
-        console.log(foundUser);
         if(!err)
-        {
-            // console.log(foundUser.rectifiedEmails);    
-            res.render("view",{emails:foundUser.rectifiedEmails,uid:userid});
+        {  
+            res.render("view",{emails:foundUser.rectifiedEmails,invalid:foundUser.invalidEmails,uid:userid});
         }
         else
             console.log(err);
@@ -36,16 +34,15 @@ router.post("/:userid/upload",function(req,res){
       var newpath = 'C:/Users/HP/Desktop/MassMailDispatcher/uploads/' + files.emails.originalFilename;
       fs.rename(oldpath, newpath, function (err) {
         if (err) throw err;
-        // res.write('File uploaded and moved!');
-
         //reading the uploaded content
         // /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
         const csvFilePath=__dirname+"/../uploads/"+files.emails.originalFilename;
         csv({noheader:true,headers:["email"]}).fromFile(csvFilePath).then((jsonObject)=>{
             const re = /^([a-zA-Z0-9\._]+)@([a-zA-Z0-9])+.([a-z]+)(.[a-z]+)?$/g;
             const rectifiedmails=jsonObject.filter((obj)=>{return obj.email.match(re)!==null});
-            
-            User.findOneAndUpdate({id:userid},{rectifiedEmails:rectifiedmails},function(err){
+            const invalidmails=jsonObject.filter((obj)=>{return obj.email.match(re)===null});
+
+            User.findOneAndUpdate({id:userid},{rectifiedEmails:rectifiedmails,invalidEmails:invalidmails},function(err){
                 if(!err)
                 {
                     console.log("Successfully Updated");
@@ -65,7 +62,6 @@ router.post("/:userid/upload",function(req,res){
 
         notifier.notify("File Uploaded Successfully");
         res.redirect(`/${userid}`);
-        // res.end();
       });
     });
 });

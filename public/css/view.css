@@ -2,6 +2,19 @@ body{
     background-color: #CAF0F8;
 }
 
+.divider{
+  width:50%;
+  margin:2.5rem auto;
+  border-top: 0.7rem dotted #1363DF;
+  border-right-width: 0;
+  border-left-width: 0;
+  border-bottom-width: 0;
+}
+
+.list-group{
+  margin-bottom: 3rem;
+}
+
 .list-group-item {
     text-align: center;
     font-family: 'Montserrat', sans-serif;

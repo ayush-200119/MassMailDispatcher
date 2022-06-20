@@ -31,14 +31,10 @@ router.post("/",function(req,res){
                         email:mail,
                         password:hash
                     });
-                    
-                    // console.log(currUser);
 
-                    currUser.save(function(err,result){
+                     currUser.save(function(err,result){
                         if(err)
                         console.log(err);
-                        // else
-                        // console.log(result);
                     });
                     res.redirect(`/${currId}`);
                 }

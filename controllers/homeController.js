@@ -11,7 +11,6 @@ const upload = multer({ dest: '/../uploads/' });
 const User = require(__dirname+"/../models/userSchema.js"); 
 const notifier=require('node-notifier');
 
-// const viewController=require(__dirname+"/viewController.js");
 router.get("/",function(req,res){
     res.render("home",{isLoggedIn:false,userid:''});
 });
